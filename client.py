@@ -35,6 +35,7 @@ reader = MF()
 # Setting the status of the reader
 status = None
 
+# TODO: Change to an infinite loop to keep reading cards
 # Establish a connection with the card
 while status != reader.MI_OK:
     (status, uid) = reader.Request(reader.PICC_REQIDL)
@@ -44,6 +45,8 @@ while status != reader.MI_OK:
         cardIdentifier = reader.SelectTag(uid)
         # Connecting to the server
         connect(HOST, PORT)
+        # Closing the reader releasing any data
+        reader.Close()
         # TODO: Check UID and then confirm it is the same with Server
         # This is unsafe and ideally we need to read a block from a sector and check if it's the card.
         # To do this is easy based on documentation at https://pypi.org/project/mfrc522-python/

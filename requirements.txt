@@ -1,4 +1,13 @@
+# To create Flask API endpoints
+Flask~=3.0.0
+Flask-Cors~=4.0.0 # To enable CORS
+
+# To read RFID tags
 mfrc522-python==0.0.5
+
+# To read environment variables from .env file
 python-dotenv~=1.0.0
 
+# To send POST requests to the server
 requests~=2.31.0
+

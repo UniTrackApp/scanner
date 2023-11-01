@@ -1,45 +1,27 @@
 import os
-
-import psycopg2
-import psycopg2 as pgdb
+import requests
 from dotenv import load_dotenv
 
-# Loading env variables
+# Loading the Env variables - Be sure to have them
 load_dotenv()
 
-DB_HOST = os.getenv('PGHOST')
-DB_NAME = os.getenv('POSTGRES_DB')
-DB_USER = os.getenv('POSTGRES_USER')
-DB_PASSWORD = os.getenv('POSTGRES_PASSWORD')
-DB_PORT = os.getenv('POSTGRES_PORT')
-
-try:
-    # Establishing connection with DB
-    conn = pgdb.connect(
-        host=DB_HOST,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        port=DB_PORT)
-except Exception as error:
-    # Handling connection errors
-    print(f"Error on Connection: {type(error)}")
+# The URL for the endpoint in the env variables
+URL = os.getenv('API_UID')
 
 
 def check_uid(uid):
-    """Function which checks the UID against the table on DB"""
-    cursor = conn.cursor()
-    # Query for the Database
-    query = 'SELECT * FROM "Student" WHERE "studentCardId"=%s'
+    """Function queries the server if the UID is in the database"""
+    # The payload to send to the endpoint to be checked
+    param = {'uid': uid}
     try:
-        # Executing the query
-        cursor.execute(query, (uid,))
-        result = cursor.fetchall()
-        # If the Tuple returned is empty hence no results it will return False
-        return True if result else False
-    # Handling potential errors querying the database
-    except psycopg2.Error:
-        return False
+        # Sending the request
+        response = requests.get(URL, params=param)
+        # Converting it into dictionary
+        data = response.json()
+        # If the data is empty will return false
+        return True if data else False
+    except Exception as e:
+        print(f'Error: {e}')
 
 
 def light(color):
@@ -59,6 +41,4 @@ if __name__ == '__main__':
             else:
                 light("Red")
     except KeyboardInterrupt:
-        # Closing the connection to the database
-        conn.close()
-        pass
+        print("\nExiting")

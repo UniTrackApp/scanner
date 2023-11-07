@@ -35,7 +35,7 @@ def light(color):
 if __name__ == '__main__':
     try:
         while True:
-            uniqueid = input("Insert UID: ").capitalize()
+            uniqueid = input("Insert UID: ").upper().strip()
             if check_uid(uniqueid):
                 light("Green")
             else:

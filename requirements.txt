@@ -11,3 +11,5 @@ python-dotenv~=1.0.0
 # To send POST requests to the server
 requests~=2.31.0
 
+# To manage GPIO
+gpiozero~=2.0

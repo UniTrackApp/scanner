@@ -23,3 +23,8 @@ Now you are ready to go.
 For more guidance refer to these guides:
 - [MFRC522 Documentation](https://pypi.org/project/mfrc522-python/)
 - [PyPA Installing Packages Guide](https://packaging.python.org/en/latest/tutorials/installing-packages/)
+
+
+## Reference GPIO Pin schema on Raspberry Pi 4
+
+![image](https://github.com/UniTrackApp/scanner/assets/87176210/1e3f70db-3fe4-46fd-94de-6534636cf33d)

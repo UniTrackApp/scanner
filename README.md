@@ -27,4 +27,4 @@ For more guidance refer to these guides:
 
 ## Reference GPIO Pin schema on Raspberry Pi 4
 
-![image](https://github.com/UniTrackApp/scanner/assets/87176210/1e3f70db-3fe4-46fd-94de-6534636cf33d)
+![image](https://github.com/UniTrackApp/scanner/assets/87176210/67aaea7e-f42c-4b1a-833d-6d72669dc544)

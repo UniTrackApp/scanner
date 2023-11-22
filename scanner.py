@@ -4,8 +4,6 @@ import requests
 from dotenv import load_dotenv
 from gpiozero import RGBLED
 from mfrc522 import BasicMFRC522
-# We should not mix RPi.GPIO and gpiozero to avoid corruption - Disabled for now
-# import RPi.GPIO as GPIO
 
 # Loading the Env variables - Be sure to have them
 load_dotenv()
@@ -67,6 +65,5 @@ if __name__ == '__main__':
         print(f"Exiting: {error}")
     
     finally:
-        # Freeing the GPIO resources
-        LED.off()
-        # GPIO.cleanup()
+        # Freeing the GPIO resources for the reader
+        reader.MFRC522.Close()

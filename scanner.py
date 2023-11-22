@@ -52,7 +52,7 @@ if __name__ == '__main__':
         while reading:
             print("\nScan Card")
             # Fetching the card UID and converting it to HEX
-            card_id = f'{reader.read_id():x}'.upper()
+            card_id = f'{reader.read_id():X}'
             # Printing on terminal the UID for reference
             print(card_id)
             # Light will go green or red based on the UID being in the database on server

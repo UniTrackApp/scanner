@@ -3,15 +3,22 @@ from time import sleep
 import requests
 from dotenv import load_dotenv
 from gpiozero import RGBLED
+from mfrc522 import BasicMFRC522
 
 # Loading the Env variables - Be sure to have them
 load_dotenv()
 
+
 # The URL for the endpoint in the env variables
 URL = os.getenv('API_UID')
-LED = RGBLED(red=17, blue=27, green=22)
+# The GPIO pins used for the lights
+LED = RGBLED(red=18, blue=6, green=26)
 GREEN = "GREEN"
 RED = "RED"
+# The RFID reader
+reader = BasicMFRC522()
+# Running flag
+reading = True
 
 
 def check_uid(uid):
@@ -42,12 +49,21 @@ def light(color):
 
 if __name__ == '__main__':
     try:
-        while True:
-            uniqueid = input("Insert UID: ").upper().strip()
-            if check_uid(uniqueid):
-                light(GREEN)
-            else:
-                light(RED)
+        while reading:
+            print("\nScan Card")
+            # Fetching the card UID and converting it to HEX
+            card_id = f'{reader.read_id():X}'
+            # Printing on terminal the UID for reference
+            print(card_id)
+            # Light will go green or red based on the UID being in the database on server
+            light(GREEN) if check_uid(card_id) else light(RED)
+            sleep(1)
 
-    except KeyboardInterrupt:
-        print("\nExiting")
+    except KeyboardInterrupt as error:
+        # Resetting the running flag
+        reading = False
+        print(f"Exiting: {error}")
+    
+    finally:
+        # Freeing the GPIO resources for the reader
+        reader.MFRC522.Close()

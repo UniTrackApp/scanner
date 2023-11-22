@@ -67,6 +67,5 @@ if __name__ == '__main__':
         print(f"Exiting: {error}")
     
     finally:
-        # Freeing the GPIO resources
-        LED.off()
-        # GPIO.cleanup()
+        # Freeing the GPIO resources for the reader
+        reader.MFRC522.Close()

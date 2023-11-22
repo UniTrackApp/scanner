@@ -26,5 +26,18 @@ For more guidance refer to these guides:
 
 
 ## Reference GPIO Pin schema on Raspberry Pi 4
+<details>
+    <summary>Screenshot</summary>
+  
+  ![image](https://github.com/UniTrackApp/scanner/assets/87176210/67aaea7e-f42c-4b1a-833d-6d72669dc544)
+</details>
 
-![image](https://github.com/UniTrackApp/scanner/assets/87176210/67aaea7e-f42c-4b1a-833d-6d72669dc544)
+
+## Reference GPIO Pin for RFID Reader (RC522)
+
+
+<details>
+  <summary>Screenshot</summary>
+  
+  ![image](https://github.com/UniTrackApp/scanner/assets/87176210/fb86f567-4965-4644-b5a1-12835f682d50)  
+</details>

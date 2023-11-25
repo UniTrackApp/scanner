@@ -1,15 +1,6 @@
-# To create Flask API endpoints
-Flask~=3.0.0
-Flask-Cors~=4.0.0 # To enable CORS
+# This file is used to install dependencies for the Python script
 
-# To read RFID tags
-mfrc522-python==0.0.5
-
-# To read environment variables from .env file
-python-dotenv~=1.0.0
-
-# To send POST requests to the server
-requests~=2.31.0
-
-# To manage GPIO
-gpiozero~=2.0
+python-dotenv~=1.0.0 # To read environment variables from .env file
+requests~=2.31.0 # To make HTTP requests (such as to our Next.js server API)
+gpiozero~=2.0 # To control the LED using GPIO pins on the Raspberry Pi
+mfrc522-python==0.0.5 # To read RFID tags from the reader

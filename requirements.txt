@@ -1,6 +1,6 @@
-# This file is used to install dependencies for the Python script
+# This file is used to install dependencies for our Python client
 
 python-dotenv~=1.0.0 # To read environment variables from .env file
 requests~=2.31.0 # To make HTTP requests (such as to our Next.js server API)
 gpiozero~=2.0 # To control the LED using GPIO pins on the Raspberry Pi
-mfrc522-python==0.0.5 # To read RFID tags from the reader
+mfrc522-python==0.0.5 # To read RFID cards/tags from the reader

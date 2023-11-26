@@ -14,9 +14,9 @@ If you don't have them installed run the following commands to install _python3_
 - **Windows**: `py -m ensurepip --default-pip`
 - **Linux**:   `python3 -m ensurepip --default-pip`
 
-Then proceed to install _mfrc522_, the required library to work with RFID reader.<br>
+Then proceed to install the dependencies for the project.<br>
 Install using this command on terminal:
-`pip install mfrc522-python`
+`pip install -r requirements.txt`
 
 Now you are ready to go.
 
@@ -26,15 +26,19 @@ For more guidance refer to these guides:
 
 
 ## Reference GPIO Pin schema on Raspberry Pi 4
+We are using the following GPIO for RGB colours:
+           ` - RED: GPIO 18
+            - GREEN: GPIO 26
+            - BLUE: GPIO 6`
 <details>
     <summary>Screenshot</summary>
-  
+    
   ![image](https://github.com/UniTrackApp/scanner/assets/87176210/67aaea7e-f42c-4b1a-833d-6d72669dc544)
 </details>
 
 
 ## Reference GPIO Pin for RFID Reader (RC522)
-
+For Pin Numbers open screenshot below.
 
 <details>
   <summary>Screenshot</summary>

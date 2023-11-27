@@ -4,24 +4,25 @@ import requests
 from dotenv import load_dotenv
 from gpiozero import RGBLED
 from mfrc522 import BasicMFRC522
+from constants.colour import Colour
+from constants.lecture_id import LectureId
+from constants.status import Status
 
 # Loading the Env variables - Be sure to have them
 load_dotenv()
 
-
 # The URL for the endpoint in the env variables
 URL = os.getenv('API_UID')
+ATTENDANCE_URL = os.getenv('API_ATTENDANCE')
 # The GPIO pins used for the lights
 LED = RGBLED(red=18, blue=6, green=26)
-GREEN = "GREEN"
-RED = "RED"
 # The RFID reader
 reader = BasicMFRC522()
 # Running flag
 reading = True
 
 
-def check_uid(uid):
+def send_uid(uid):
     """Function queries the server if the UID is in the database"""
     # The payload to send to the endpoint to be checked
     param = {'uid': uid}
@@ -34,15 +35,44 @@ def check_uid(uid):
         print(f'Error: {e}')
 
 
+def write_attendance(uid, lectureId):
+    """
+    It sends the UID and LectureId to the Server which will create an entry in the database.
+    It then returns the status of the student based on time.
+
+    :param uid: The card's Unique ID
+    :param lectureId: The lecture ID used by the specific scanner
+    :returns: The Student Status 
+    """
+    param = {'uid': uid, 'lectureId': lectureId}
+    try:
+        response = requests.post(ATTENDANCE_URL, params=param)
+        # The status as response from the request
+        status = str(response.json('status'))
+    
+    except Exception as e:
+        print(f'Error:  {e}')
+
+    finally:
+        return status
+
+    
 def light(color):
     """It lights the LED in different colors for 1 second and turns it off"""
-    if color == RED:
+
+    # Red Color
+    if color == Colour.RED:
         LED.red = 1
         sleep(1)
         LED.off()
-
-    elif color == GREEN:
+    # Green Color
+    elif color == Colour.GREEN:
         LED.green = 1
+        sleep(1)
+        LED.off()
+    # Amber Color
+    elif color == Colour.AMBER:
+        LED(1, 0.5, 0)
         sleep(1)
         LED.off()
 
@@ -55,8 +85,18 @@ if __name__ == '__main__':
             card_id = f'{reader.read_id():X}'
             # Printing on terminal the UID for reference
             print(card_id)
-            # Light will go green or red based on the UID being in the database on server
-            light(GREEN) if check_uid(card_id) else light(RED)
+            status = write_attendance(card_id, lectureId=LectureId.COMP_ASD)
+            
+            # Light will go green or red based on the status returned from the API call
+            match status:
+                case Status.PRESENT:
+                    light(Colour.GREEN)
+                
+                case Status.LATE:
+                    light(Colour.AMBER)
+                    
+                case _:
+                    light(Colour.RED)
             sleep(1)
 
     except KeyboardInterrupt as error:

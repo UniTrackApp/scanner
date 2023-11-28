@@ -44,7 +44,7 @@ def write_attendance(uid, lectureId):
     :param lectureId: The lecture ID used by the specific scanner
     :returns: The Student Status 
     """
-    data = {'uid': uid, 'lectureId': lectureId}
+    data = {'studentCardId': uid, 'lectureId': lectureId}
     try:
         response = requests.post(ATTENDANCE_URL, json=data)
         json_response = response.json()

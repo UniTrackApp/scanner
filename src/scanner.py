@@ -44,35 +44,41 @@ def write_attendance(uid, lectureId):
     :param lectureId: The lecture ID used by the specific scanner
     :returns: The Student Status 
     """
-    param = {'uid': uid, 'lectureId': lectureId}
+    data = {'uid': uid, 'lectureId': lectureId}
     try:
-        response = requests.post(ATTENDANCE_URL, params=param)
+        response = requests.post(ATTENDANCE_URL, json=data)
+        json_response = response.json()
         # The status as response from the request
-        status = str(response.json('status'))
+        json_status = response.json()
+        for key in json_response:
+            if key == 'error':
+                status = json_response['error']
+                break
+            else:
+                status = json_response['status']
+                break
+        return status
     
     except Exception as e:
         print(f'Error:  {e}')
-
-    finally:
-        return status
 
     
 def light(color):
     """It lights the LED in different colors for 1 second and turns it off"""
 
     # Red Color
-    if color == Colour.RED:
+    if color == Colour.RED.value:
         LED.red = 1
         sleep(1)
         LED.off()
     # Green Color
-    elif color == Colour.GREEN:
+    elif color == Colour.GREEN.value:
         LED.green = 1
         sleep(1)
         LED.off()
     # Amber Color
-    elif color == Colour.AMBER:
-        LED(1, 0.5, 0)
+    elif color == Colour.AMBER.value:
+        LED.color = (1, 0.5, 0)
         sleep(1)
         LED.off()
 
@@ -89,14 +95,14 @@ if __name__ == '__main__':
             
             # Light will go green or red based on the status returned from the API call
             match status:
-                case Status.PRESENT:
-                    light(Colour.GREEN)
+                case Status.PRESENT.value:
+                    light(Colour.GREEN.value)
                 
-                case Status.LATE:
-                    light(Colour.AMBER)
+                case Status.LATE.value:
+                    light(Colour.AMBER.value)
                     
                 case _:
-                    light(Colour.RED)
+                    light(Colour.RED.value)
             sleep(1)
 
     except KeyboardInterrupt as error:

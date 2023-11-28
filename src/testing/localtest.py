@@ -2,8 +2,8 @@ import os
 from time import sleep
 import requests
 from dotenv import load_dotenv
-from gpiozero import RGBLED
-from mfrc522 import BasicMFRC522
+# from gpiozero import RGBLED
+#from mfrc522 import BasicMFRC522
 from constants.colour import Colour
 from constants.lecture_id import LectureId
 from constants.status import Status
@@ -15,9 +15,9 @@ load_dotenv()
 URL = os.getenv('API_UID')
 ATTENDANCE_URL = os.getenv('API_ATTENDANCE')
 # The GPIO pins used for the lights
-LED = RGBLED(red=18, blue=6, green=26)
+# LED = RGBLED(red=18, blue=6, green=26)
 # The RFID reader
-reader = BasicMFRC522()
+# reader = BasicMFRC522()
 # Running flag
 reading = True
 
@@ -42,14 +42,13 @@ def write_attendance(uid, lectureId):
 
     :param uid: The card's Unique ID
     :param lectureId: The lecture ID used by the specific scanner
-    :returns: The Student Status 
+    :returns: The Student Status
     """
-    data = {'uid': uid, 'lectureId': lectureId}
+    data = {'studentCardId': uid, 'lectureId': lectureId}
     try:
         response = requests.post(ATTENDANCE_URL, json=data)
-        json_response = response.json()
         # The status as response from the request
-        json_status = response.json()
+        json_response = response.json()
         for key in json_response:
             if key == 'error':
                 status = json_response['error']
@@ -58,33 +57,33 @@ def write_attendance(uid, lectureId):
                 status = json_response['status']
                 break
         return status
-    
+
     except Exception as e:
         print(f'Error:  {e}')
 
-    
+
 def light(color):
     """It lights the LED in different colors for 1 second and turns it off"""
-
+"""
     # Red Color
-    if color == Colour.RED.value:
+    if color == Colour.RED:
         LED.red = 1
         sleep(1)
         LED.off()
     # Green Color
-    elif color == Colour.GREEN.value:
+    elif color == Colour.GREEN:
         LED.green = 1
         sleep(1)
         LED.off()
     # Amber Color
-    elif color == Colour.AMBER.value:
-        LED.color = (1, 0.5, 0)
+    elif color == Colour.AMBER:
+        LED(1, 0.5, 0)
         sleep(1)
         LED.off()
-
+"""
 
 if __name__ == '__main__':
-    try:
+    """try:
         while reading:
             print("\nScan Card")
             # Fetching the card UID and converting it to HEX
@@ -92,24 +91,37 @@ if __name__ == '__main__':
             # Printing on terminal the UID for reference
             print(card_id)
             status = write_attendance(card_id, lectureId=LectureId.COMP_ASD)
-            
+
             # Light will go green or red based on the status returned from the API call
             match status:
-                case Status.PRESENT.value:
-                    light(Colour.GREEN.value)
-                
-                case Status.LATE.value:
-                    light(Colour.AMBER.value)
-                    
+                case Status.PRESENT:
+                    light(Colour.GREEN)
+
+                case Status.LATE:
+                    light(Colour.AMBER)
+
                 case _:
-                    light(Colour.RED.value)
+                    light(Colour.RED)
             sleep(1)
 
     except KeyboardInterrupt as error:
         # Resetting the running flag
         reading = False
         print(f"Exiting: {error}")
-    
+
     finally:
         # Freeing the GPIO resources for the reader
         reader.MFRC522.Close()
+"""
+    while reading:
+        uid = input("Insert uid: ").strip().upper()
+        status = write_attendance(uid, lectureId='COMP766-001')
+        match status:
+            case Status.PRESENT.value:
+                print(Colour.GREEN.value)
+
+            case Status.LATE.value:
+                print(Colour.AMBER.value)
+
+            case _:
+                print(Colour.RED.value)

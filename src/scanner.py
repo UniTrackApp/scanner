@@ -7,6 +7,9 @@ from mfrc522 import BasicMFRC522
 from constants.colour import Colour
 from constants.lecture_id import LectureId
 from constants.status import Status
+from constants.endpointkeys import EndPointKeys
+
+
 
 # Loading the Env variables - Be sure to have them
 load_dotenv()
@@ -44,7 +47,7 @@ def write_attendance(uid, lectureId):
     :param lectureId: The lecture ID used by the specific scanner
     :returns: The Student Status 
     """
-    data = {'studentCardId': uid, 'lectureId': lectureId}
+    data = {EndPointKeys.STUDENT_CARD_ID.value: uid, EndPointKeys.LECTURE_ID.value: lectureId}
     try:
         response = requests.post(ATTENDANCE_URL, json=data)
         json_response = response.json()
@@ -52,12 +55,10 @@ def write_attendance(uid, lectureId):
         json_status = response.json()
         for key in json_response:
             if key == 'error':
-                status = json_response['error']
-                break
+                return json_response['error']
+
             else:
-                status = json_response['status']
-                break
-        return status
+                return json_response['status']
     
     except Exception as e:
         print(f'Error:  {e}')

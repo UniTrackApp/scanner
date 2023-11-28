@@ -1,6 +1,13 @@
-from mfrc522 import BasicMFRC522
+#from mfrc522 import BasicMFRC522
 
-reader = BasicMFRC522()
+#reader = BasicMFRC522()
+
+
+def confirmation():
+    print("\n-------------------")
+    print("\nConfirm Registration? (y/n)")
+    return input().upper().strip()
+
 
 if __name__ == "__main__":
     try:
@@ -10,7 +17,8 @@ if __name__ == "__main__":
 
         print("\nScan your card first to start registration")
         # Fetching the card UID and converting it to HEX
-        card_id = f"{reader.read_id():X}"
+        #card_id = f"{reader.read_id():X}"
+        card_id = input().strip().upper()
         # Printing on terminal the UID for reference
         print(f"This is your card UID: {card_id}")
 
@@ -29,21 +37,27 @@ if __name__ == "__main__":
         print(f"\nLast Name: {last_name}")
         print(f"\nCard UID: {card_id}")
 
-        print("\n-------------------")
-        print("\nConfirm Registration? (y/n)")
-        confirm = input()
+        confirm = confirmation()
 
-        if confirm == "y":
-            print("\n-------------------")
-            print("\nRegistering Student...")
-            # TODO: Register student in database using all info using an API
-        else:
-            print("\n-------------------")
-            print("\nExiting...")
-            exit()
+        match confirm:
+            case "Y":
+                print("\n-------------------")
+                print("\nRegistering Student...")
+                # TODO: Register student in database using all info using an API
+
+            case "N":
+                print("\n-------------------")
+                print("\nExiting...")
+                exit()
+
+            case _:
+                print("\n-------------------")
+                print("\nWrong input...")
+                confirm = confirmation()
 
     except KeyboardInterrupt as error:
         print(f"Exiting: {error}")
 
     finally:
-        reader.MFRC522.Close()
+        #reader.MFRC522.Close()
+        pass

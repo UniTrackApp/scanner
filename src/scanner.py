@@ -70,17 +70,17 @@ def light(color):
     # Red Color
     if color == Colour.RED.value:
         LED.red = 1
-        sleep(1)
+        sleep(1.5)
         LED.off()
     # Green Color
     elif color == Colour.GREEN.value:
         LED.green = 1
-        sleep(1)
+        sleep(1.5)
         LED.off()
     # Amber Color
     elif color == Colour.AMBER.value:
-        LED.color = (1, 0.5, 0)
-        sleep(1)
+        LED.color = (1, 0.2, 0)
+        sleep(1.5)
         LED.off()
 
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
             card_id = f'{reader.read_id():X}'
             # Printing on terminal the UID for reference
             print(card_id)
-            status = write_attendance(card_id, lectureId=LectureId.COMP_ASD)
+            status = write_attendance(card_id, LectureId.COMP766_001.value)
             
             # Light will go green or red based on the status returned from the API call
             match status:

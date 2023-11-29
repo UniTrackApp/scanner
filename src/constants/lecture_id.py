@@ -2,5 +2,8 @@ from enum import Enum
 
 
 class LectureId(Enum):
-    COMP_ASD = "COMP_ASD"
-    COMP_SO_72 = "COMP_SO_72"
+    COMP766_001 = "COMP766-001"
+    COMP723_006 = "COMP723-006"
+    COMP723_005 = "COMP723-005"
+    COMP738_009 = "COMP738-009"
+

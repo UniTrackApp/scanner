@@ -1,11 +1,9 @@
-from mfrc522 import BasicMFRC522
 import requests
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
-reader = BasicMFRC522()
 URL = os.getenv("API_CREATE_STUDENT")
 
 
@@ -35,15 +33,14 @@ if __name__ == "__main__":
         print("\n-------------------")
 
         print("\nScan your card first to start registration")
-        # Fetching the card UID and converting it to HEX
-        card_id = f"{reader.read_id():X}"
+        card_id = input().strip().upper()
         # Printing on terminal the UID for reference
         print(f"This is your card UID: {card_id}")
 
         print("\nEnter Student ID: ")
-        student_id = input()
+        student_id = input().strip()
         print("\nEnter Fist Name: ")
-        first_name = input()
+        first_name = input().capitalize().strip()
         print("\nEnter Last Name: ")
         last_name = input()
 
@@ -72,7 +69,6 @@ if __name__ == "__main__":
                 if registerStudent(URL, data):
                     print("\n-------------------")
                     print("\nRegistration Successful")
-                    print("\n-------------------")
                 else:
                     print("\n-------------------")
                     print("\nRegistration Failed")
@@ -92,4 +88,4 @@ if __name__ == "__main__":
         print(f"Exiting: {error}")
 
     finally:
-        reader.MFRC522.Close()
+        pass

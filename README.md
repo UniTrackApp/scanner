@@ -66,4 +66,4 @@ python src/scanner.py
 
 ## 🔑 License
 
-- [GNU GPLv3](https://github.com/UniTrackApp/dashboard/blob/main/COPYING).
+- [GNU GPLv3](https://github.com/UniTrackApp/dashboard/blob/main/LICENSE).
